@@ -1,0 +1,133 @@
+{
+  "info": {
+    "_postman_id": "ecommerce-auth-file",
+    "name": "E-Commerce Auth Service",
+    "description": "Registration & Login Service collection. Import, set collection variable `baseUrl` (default http://localhost:8081/api). Login and use the token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081/api"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"mobile\": \"9876543210\",\n  \"password\": \"Passw0rd@123\",\n  \"confirmPassword\": \"Passw0rd@123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const json = pm.response.json();",
+              "if (json.success && json.data && json.data.token) {",
+              "  pm.collectionVariables.set('token', json.data.token);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"identifier\": \"john@example.com\",\n  \"password\": \"Passw0rd@123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Get My Profile",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{baseUrl}}/user/me", "host": ["{{baseUrl}}"], "path": ["user", "me"] }
+      }
+    },
+    {
+      "name": "Protected Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{baseUrl}}/user/dashboard", "host": ["{{baseUrl}}"], "path": ["user", "dashboard"] }
+      }
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"] }
+      }
+    },
+    {
+      "name": "Forgot Password (send OTP)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/auth/forgot-password", "host": ["{{baseUrl}}"], "path": ["auth", "forgot-password"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"identifier\": \"john@example.com\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Verify OTP",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/auth/verify-otp", "host": ["{{baseUrl}}"], "path": ["auth", "verify-otp"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"identifier\": \"john@example.com\",\n  \"otp\": \"123456\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Reset Password",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/auth/reset-password", "host": ["{{baseUrl}}"], "path": ["auth", "reset-password"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"identifier\": \"john@example.com\",\n  \"otp\": \"123456\",\n  \"newPassword\": \"NewPass@456\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Change Password",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "{{baseUrl}}/auth/change-password", "host": ["{{baseUrl}}"], "path": ["auth", "change-password"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"currentPassword\": \"Passw0rd@123\",\n  \"newPassword\": \"NewPass@456\"\n}"
+        }
+      }
+    }
+  ]
+}
