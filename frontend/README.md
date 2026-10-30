@@ -17,8 +17,9 @@ The API base URL defaults to `http://localhost:8081/api`. Override it with a `.e
 
 The `main` branch deploys the screens to
 https://laxmipatil2005.github.io/Registration-and-login-app/ using GitHub Actions.
-The dashboard preview is available from the login page. GitHub Pages hosts only static files;
-registration and login require the Spring backend to be deployed separately.
+The registration and login screens are available from the home page, and the dashboard preview
+is linked from the login page (or at `/#/dashboard-preview`). GitHub Pages hosts only static
+files; registration and login require the Spring backend to be deployed separately.
 
 ## Pages
 
