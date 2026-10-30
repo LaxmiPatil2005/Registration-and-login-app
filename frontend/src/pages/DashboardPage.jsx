@@ -4,19 +4,24 @@ import toast from 'react-hot-toast'
 import { getDashboard } from '../api/auth'
 import { useAuth } from '../context/AuthContext'
 
-export default function DashboardPage() {
+export default function DashboardPage({ preview = false }) {
   const { user, token, initializing, logout } = useAuth()
-  const [content, setContent] = useState('')
+  const [dashboardContent, setDashboardContent] = useState('')
+  const content = preview ? 'Dashboard UI preview' : dashboardContent
 
   useEffect(() => {
+    if (preview) {
+      return
+    }
+
     getDashboard()
-      .then((res) => setContent(res.message))
+      .then((res) => setDashboardContent(res.message))
       .catch(() => {
         // auth state handled by interceptor
       })
-  }, [])
+  }, [preview])
 
-  if (initializing) {
+  if (!preview && initializing) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-100">
         <div className="text-slate-500">Loading your session...</div>
@@ -24,7 +29,7 @@ export default function DashboardPage() {
     )
   }
 
-  if (!token) {
+  if (!preview && !token) {
     return <Navigate to="/login" replace />
   }
 
@@ -79,17 +84,17 @@ export default function DashboardPage() {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-slate-900">
-                  Welcome, {user?.fullName}!
+                  Welcome, {user?.fullName || (preview ? 'Demo User' : '')}!
                 </h1>
                 <p className="text-sm text-slate-500">{content}</p>
               </div>
             </div>
 
             <div className="grid gap-4 rounded-xl border border-slate-200 p-6 sm:grid-cols-2">
-              <InfoItem label="Full Name" value={user?.fullName} />
-              <InfoItem label="Email" value={user?.email} />
-              <InfoItem label="Mobile" value={user?.mobile} />
-              <InfoItem label="User ID" value={user?.id} />
+              <InfoItem label="Full Name" value={user?.fullName || (preview ? 'Demo User' : '')} />
+              <InfoItem label="Email" value={user?.email || (preview ? 'demo@example.com' : '')} />
+              <InfoItem label="Mobile" value={user?.mobile || (preview ? '—' : '')} />
+              <InfoItem label="User ID" value={user?.id || (preview ? '—' : '')} />
             </div>
 
             <div className="mt-6 flex flex-wrap gap-3">

@@ -8,6 +8,8 @@ import ResetPasswordPage from './pages/ResetPasswordPage'
 import ChangePasswordPage from './pages/ChangePasswordPage'
 import DashboardPage from './pages/DashboardPage'
 
+const isUiPreview = import.meta.env.VITE_UI_PREVIEW === 'true'
+
 export default function App() {
   return (
     <Routes>
@@ -16,6 +18,7 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/verify-otp" element={<VerifyOtpPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
+      {isUiPreview && <Route path="/dashboard-preview" element={<DashboardPage preview />} />}
 
       <Route
         path="/change-password"

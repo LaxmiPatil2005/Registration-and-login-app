@@ -31,8 +31,8 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     setUnauthorizedHandler(() => {
       clearAuth()
-      if (!window.location.pathname.startsWith('/login')) {
-        window.location.href = '/login'
+      if (window.location.hash !== '#/login') {
+        window.location.hash = '/login'
       }
     })
   }, [clearAuth])

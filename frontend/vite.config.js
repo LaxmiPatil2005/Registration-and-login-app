@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: process.env.GITHUB_ACTIONS ? '/Registration-and-login-app/' : '/',
   plugins: [react(), tailwindcss()],
   server: {
     port: 5173,

@@ -96,6 +96,14 @@ export default function LoginPage() {
           Create one
         </Link>
       </p>
+      {import.meta.env.VITE_UI_PREVIEW === 'true' && (
+        <p className="mt-3 text-center text-sm text-slate-500">
+          Want to see the dashboard?{' '}
+          <Link to="/dashboard-preview" className="font-medium text-indigo-600 hover:underline">
+            Preview it
+          </Link>
+        </p>
+      )}
     </AuthLayout>
   )
 }

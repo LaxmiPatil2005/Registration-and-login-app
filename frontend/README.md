@@ -13,6 +13,13 @@ npm run dev        # http://localhost:5173
 
 The API base URL defaults to `http://localhost:8081/api`. Override it with a `.env` file (see `.env.example`).
 
+## GitHub Pages preview
+
+The `main` branch deploys the screens to
+https://laxmipatil2005.github.io/Registration-and-login-app/ using GitHub Actions.
+The dashboard preview is available from the login page. GitHub Pages hosts only static files;
+registration and login require the Spring backend to be deployed separately.
+
 ## Pages
 
 | Route | Description |
